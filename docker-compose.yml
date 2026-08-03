@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: pgvector/pgvector:pg16
+    build: .
     platform: linux/amd64
     container_name: devops_pr_postgres
     environment:
