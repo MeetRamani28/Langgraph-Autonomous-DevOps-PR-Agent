@@ -2,6 +2,7 @@ import logging
 from typing import Dict, Any
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnableConfig
 
 from app.config import settings
 from app.graph.state import PRReviewState
@@ -81,7 +82,7 @@ async def fetch_jira_specs_node(state: PRReviewState) -> Dict[str, Any]:
         return {"jira_requirements": "Standard Security Policy applies."}
 
 
-async def retrieve_docs_node(state: PRReviewState, config: Dict[str, Any]) -> Dict[str, Any]:
+async def retrieve_docs_node(state: PRReviewState, config: RunnableConfig) -> Dict[str, Any]:
     """Node 3: Retrieves internal security guidelines from pgvector RAG database."""
     logger.info("[Node: retrieve_docs_node] Querying pgvector RAG guidelines...")
     try:
