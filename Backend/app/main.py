@@ -9,6 +9,7 @@ from slowapi.util import get_remote_address
 from psycopg_pool import AsyncConnectionPool
 from psycopg.rows import dict_row
 from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
+from app.routers import webhook, review, stream
 
 from app.config import settings
 from app.routers import webhook, review
@@ -88,6 +89,7 @@ app.add_middleware(
 
 app.include_router(webhook.router)
 app.include_router(review.router)
+app.include_router(stream.router)
 
 
 @app.get("/", tags=["Health"])
