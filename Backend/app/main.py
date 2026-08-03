@@ -11,6 +11,7 @@ from psycopg.rows import dict_row
 from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 
 from app.config import settings
+from app.routers import webhook, review
 
 logging.basicConfig(
     level=logging.INFO,
@@ -21,7 +22,6 @@ logger = logging.getLogger("DevOpsPRAgent")
 db_pool: AsyncConnectionPool | None = None
 checkpointer: AsyncPostgresSaver | None = None
 
-# Initialize Rate Limiter (IP-based tracking)
 limiter = Limiter(key_func=get_remote_address, default_limits=["30/minute"])
 
 
@@ -85,6 +85,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(webhook.router)
+app.include_router(review.router)
 
 
 @app.get("/", tags=["Health"])
